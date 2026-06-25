@@ -1,0 +1,41 @@
+
+CHIP Or8Way {
+    IN in[8];
+    OUT out;
+
+    PARTS:
+    //OR 1
+    Nand(a=in[0] , b=in[0] , out=in0 );
+    Nand(a=in[1] , b=in[1] , out=in1 );
+    Nand(a=in0 , b=in1 , out=temp1 );
+
+    //OR 2
+    Nand(a=in[2] , b=in[2] , out=in2 );
+    Nand(a=in[3] , b=in[3] , out=in3 );
+    Nand(a=in2 , b=in3 , out=temp2 );
+
+    //OR 3
+    Nand(a=in[4] , b=in[4] , out=in4 );
+    Nand(a=in[5] , b=in[5] , out=in5 );
+    Nand(a=in4 , b=in5 , out=temp3 );
+
+    //OR 4
+    Nand(a=in[6] , b=in[6] , out=in6 );
+    Nand(a=in[7] , b=in[7] , out=in7 );
+    Nand(a=in6 , b=in7 , out=temp4 );
+
+    //OR 5
+    Nand(a=temp1 , b=temp1 , out=nextTempA );
+    Nand(a=temp2 , b=temp2 , out=nextTempB );
+    Nand(a=nextTempA , b=nextTempB , out=nextOut1 );
+
+    //OR 6
+    Nand(a=temp3 , b=temp3 , out=nextTempA1 );
+    Nand(a=temp4 , b=temp4 , out=nextTempB1 );
+    Nand(a=nextTempA1 , b=nextTempB1 , out=nextOut2 );
+
+    //OR 7
+    Nand(a=nextOut1 , b=nextOut1 , out=lastTemp1 );
+    Nand(a=nextOut2 , b=nextOut2 , out=lastTemp2 );
+    Nand(a=lastTemp1 , b=lastTemp2 , out=out );
+}

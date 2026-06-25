@@ -1,0 +1,26 @@
+CHIP Mux {
+    IN a, b, sel;
+    OUT out;
+
+    PARTS:
+
+    //MUX(a, b, sel) = (a AND NOT(sel) OR (b AND sel))
+
+    //Not Gate -> Not(sel)
+    Nand(a=sel , b=sel , out=notSel );
+
+    //AND Gate -> a AND NOT(sel)
+    Nand(a=a , b=notSel , out=nandA);
+    Nand(a=a, b=notSel, out=nandB);
+    Nand(a=nandA, b=nandB, out=aAndNotSel);
+
+    //AND Gate -> b AND sel
+    Nand(a=b , b=sel , out=nandA2);
+    Nand(a=b, b=sel, out=nandB2);
+    Nand(a=nandA2, b=nandB2, out=bAndSel);
+
+    //OR Gate -> (a AND NOT(sel) OR (b AND sel))
+    Nand(a=aAndNotSel , b=aAndNotSel , out=temp1 );
+    Nand(a=bAndSel , b=bAndSel , out=temp2 );
+    Nand(a=temp1 , b=temp2 , out=out );
+}

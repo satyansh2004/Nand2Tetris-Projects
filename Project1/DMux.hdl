@@ -1,0 +1,23 @@
+CHIP DMux {
+    IN in, sel;
+    OUT a, b;
+
+    PARTS:
+    //----For output a----//
+
+    //Not gate -> Not(sel)
+    Nand(a=sel, b=sel, out=notSel );
+
+    //AND Gate -> in AND Not(sel)
+    Nand(a=in , b=notSel , out=inNotSel1 );
+    Nand(a=in , b=notSel , out=inNotSel2);
+    Nand(a=inNotSel1 , b=inNotSel2 , out=a );
+
+    //----For output b----//
+    //AND Gate -> in AND sel
+
+    Nand(a=in , b=sel , out=inSel1 );
+    Nand(a=in , b=sel , out=inSel2);
+    Nand(a=inSel1 , b=inSel2 , out=b );
+
+}
